@@ -151,6 +151,7 @@ public class MyAdapter extends RecyclerView.Adapter<MyAdapter.MyViewHolder> {
     }
 
     private void crearArchText(String text, int pos){
+        //se crea un archivo con todos los datos
         OutputStreamWriter fileOutputStream= null;
         try {
             fileOutputStream = new OutputStreamWriter(
@@ -168,6 +169,7 @@ public class MyAdapter extends RecyclerView.Adapter<MyAdapter.MyViewHolder> {
     }
 
     private void leerArch(){
+        //se lee el archivo y se convierte en string. Esto se añade en el mensaje del correo que vamos a mandar
         try{
             BufferedReader bf= new BufferedReader(new InputStreamReader(
                    context.openFileInput("text.txt") ));
@@ -233,27 +235,6 @@ public class MyAdapter extends RecyclerView.Adapter<MyAdapter.MyViewHolder> {
         requestQueue.add(stringRequest);
     }
 
-    /*private void archJson(int pos, View vi){
-        obtenerArchivo(vi,pos);
-        String path = "/app/json/companies.json";
-        JSONObject arch = new JSONObject();
-        Toast.makeText(context, "JSON", Toast.LENGTH_SHORT).show();
-        try {
-            arch.put("Evento:", name.get(pos));
-            arch.put("Fechas",date.get(pos));
-            arch.put("Horario",time.get(pos));
-            arch.put("Lugar",place.get(pos));
-            arch.put("Notas", notas);
-        } catch (JSONException e) {
-            e.printStackTrace();
-        }
-        try (PrintWriter out = new PrintWriter(new FileWriter(path))) {
-            out.write(arch.toString());
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
-    }*/
-
     private void deleteDb (View vi, int pos){
         //borrar de la base de datos el evento seleccionado
         String url = "http://192.168.1.135/developeru/eliminar_evento.php";
@@ -300,13 +281,6 @@ public class MyAdapter extends RecyclerView.Adapter<MyAdapter.MyViewHolder> {
             card=itemView.findViewById(R.id.card);
             itemView.setOnClickListener(this);
         }
-
-        //TODO comprobar que esto es necesario
-       /* public MyViewHolder linkAdapter(MyAdapter adapter){
-            this.adapter=adapter;
-            return this;
-        }*/
-
 
         @Override
         public void onClick(View view) {
