@@ -1,0 +1,64 @@
+<resources>
+    <string name="app_name">Ulertuz app</string>
+    <string name="str_name"> Izena </string>
+    <string name="str_ape"> Abizena </string>
+    <string name="str_uName"> Erabiltzaile izena </string>
+    <string name="str_cont"> Pasahitza </string>
+    <string name="str_corr"> Posta elektronikoa </string>
+    <string name="str_tit"> Izenburua </string>
+    <string name="str_fechI"> Hasierako data</string>
+    <string name="str_fechF"> Amaierako data</string>
+    <string name="str_horarioI"> Hasteko ordua</string>
+    <string name="str_horarioF"> Bukatzeko ordua</string>
+    <string name="str_lugar"> Lekua </string>
+    <string name="str_notas">Oharrak </string>
+    <string name="str_tel"> Telefonoa </string>
+    <string name="btn_iniciar"> Sartu </string>
+    <string name="btn_reg"> Erregistratu </string>
+    <string name="btn_guardar"> Gorde </string>
+    <string name="btn_acep"> Onartu </string>
+    <string name="btn_canc"> Ezeztatu </string>
+    <string name="tit_reg"> Izena eman </string>
+    <string name="tit_an">Ekintza gehitu</string>
+    <string name="tit_bor"> Ekintza ezabatuta</string>
+    <string name="titulo">Ekintzak</string>
+    <string name="btn_volver"> Itzuli </string>
+    <string name="escogerC">Kolore bat aukeratu</string>
+    <string name="vacio">Aldagairen bat hutsik</string>
+    <string name="errorSign">Erabiltzaile izena edota pasahitza ez da zuzena</string>
+    <string name="errorSignEn">Okerra</string>
+    <string name="errorRepe"> Badago beste erabiltzaile bat izen horrekin. Sartu beste bat.</string>
+    <string name="errorFechI">Hasierako data jarri behar da</string>
+    <string name="errorFechEn">Osatugabe</string>
+    <string name="errorHor">Egun bakarra aukeratu duzunez, amaierako ordua ezin da hasierako ordua baino lehenago izan.</string>
+    <string name="errorfIF"> Bukaerako data ezin da izan hasierakoa baino lehenago</string>
+    <string name="notTit">gehituta</string>
+    <string name="notText"> daukazu ekintz berri bat.</string>
+    <string name="noNombre">Ekintza</string>
+    <string name="nolugar"> Non: </string>
+    <string name="noFecha"> Noiz: </string>
+    <string name="noHora"> Ordua: </string>
+    <string name="Preg">Nahi duzu mezu elektroniko baten bidali oharrak?</string>
+    <string-array name="idiomas">
+        <item> Hizkuntza </item>
+        <item> eu </item>
+        <item> es </item>
+    </string-array>
+    <string-array name="operaciones">
+        <item> Aukeratu </item>
+        <item> Ekintzak ikusi</item>
+        <item> Ekintza gehitu</item>
+        <item> Ekintza ezabatu</item>
+        <!--item> Ekintza aldatu</item-->
+    </string-array>
+    <string-array name="colores">
+        <item> Kolorea </item>
+        <item> Gorria</item>
+        <item> Berdea</item>
+        <item> Horia</item>
+        <item> Urdina</item>
+        <item> Laranja</item>
+        <item> Morea</item>
+        <item> Larrosa</item>
+    </string-array>
+</resources>

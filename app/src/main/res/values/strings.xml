@@ -1,0 +1,66 @@
+<resources>
+    <string name="app_name">Ulertuz app</string>
+    <string name="str_name">Nombre </string>
+    <string name="str_ape">Apellido </string>
+    <string name="str_uName">Nombre de usuario </string>
+    <string name="str_cont">Contraseña </string>
+    <string name="str_corr">Correo electrónico </string>
+    <string name="str_tit">Título </string>
+    <string name="str_fechI">Fecha de inicio</string>
+    <string name="str_fechF">Fecha final</string>
+    <string name="str_horarioI">Horario inicio</string>
+    <string name="str_horarioF">Horario final</string>
+    <string name="str_lugar">Lugar </string>
+    <string name="str_notas">Notas </string>
+    <string name="str_tel">Teléfono </string>
+    <string name="btn_iniciar">Iniciar </string>
+    <string name="btn_reg"> Registrar </string>
+    <string name="btn_guardar"> Guardar </string>
+    <string name="btn_acep"> Aceptar </string>
+    <string name="btn_canc"> Cancelar </string>
+    <string name="tit_reg"> Registro </string>
+    <string name="tit_bor"> Evento borrado</string>
+    <string name="tit_an">Añadir evento</string>
+    <string name="titulo">Eventos</string>
+    <string name="btn_volver"> Volver </string>
+    <string name="escogerC">Escoge un color</string>
+    <string name="vacio">Algún parametro vacio</string>
+    <string name="errorSign">Nombre de usuario o contraseña incorrecta</string>
+    <string name="errorSignEn">Incorrecto</string>
+    <string name="errorRepe">Ya existe un usuario con ese nombre. Inserta otro.</string>
+    <string name="errorFechI">Es necesario poner fecha de inicio</string>
+    <string name="errorFechEn">Incompleto</string>
+    <string name="errorHor">Al ser evento de un día, la hora de finalizar no puede ser antes que la de comenzar.</string>
+    <string name="errorfIF">La fecha de finalizar no puede ser antes que la de iniciar.</string>
+    <string name="notTit">añadido</string>
+    <string name="notText"> tienes nuevo evento.</string>
+    <string name="noNombre">Evento</string>
+    <string name="nolugar"> Lugar: </string>
+    <string name="noFecha"> Fecha: </string>
+    <string name="noHora"> Horario: </string>
+    <string name="Preg">¿Quieres mandar en un correo las notas?</string>
+    <string-array name="idiomas">
+        <item> Idioma </item>
+        <item> eu </item>
+        <item> es </item>
+    </string-array>
+    <string-array name="operaciones">
+        <item> Selecciona </item>
+        <item> Ver eventos</item>
+        <item> Añadir evento</item>
+        <item> Eliminar evento</item>
+        <!--item> Modificar evento</item-->
+    </string-array>
+    <string-array name="colores">
+        <item> Color </item>
+        <item> Rojo</item>
+        <item> Verde</item>
+        <item> Amarillo</item>
+        <item> Azul</item>
+        <item> Naranja</item>
+        <item> Morado</item>
+        <item> Rosa</item>
+    </string-array>
+    <!-- TODO: Remove or change this placeholder text -->
+    <string name="hello_blank_fragment">Hello blank fragment</string>
+</resources>

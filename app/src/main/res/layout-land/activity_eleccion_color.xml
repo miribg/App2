@@ -1,0 +1,70 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".EscogerColor">
+
+    <LinearLayout
+        android:id="@+id/linearLayout6"
+        android:layout_width="262dp"
+        android:layout_height="323dp"
+        android:layout_marginTop="84dp"
+        android:orientation="vertical"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.494"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent">
+
+        <TextView
+            android:id="@+id/textEscCol"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="@string/escogerC"
+            android:textSize="20sp" />
+
+        <Spinner
+            android:id="@+id/spinnerCol2"
+            android:layout_width="match_parent"
+            android:layout_height="67dp"
+            android:entries="@array/colores"
+            android:focusable="false"
+            android:focusableInTouchMode="false"
+            android:textSize="20sp" />
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:orientation="horizontal">
+
+            <Button
+                android:id="@+id/bVolver"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="left|end"
+                android:insetLeft="20dp"
+                android:text="@string/btn_volver" />
+
+            <Button
+                android:id="@+id/bGuardar"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:insetLeft="40dp"
+                android:text="@string/btn_guardar" />
+        </LinearLayout>
+    </LinearLayout>
+
+    <FrameLayout
+        android:id="@+id/fragmentC"
+        android:layout_width="218dp"
+        android:layout_height="404dp"
+        android:layout_margin="5dp"
+        android:layout_marginTop="124dp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.272"
+        app:layout_constraintStart_toEndOf="@+id/linearLayout6"
+        app:layout_constraintTop_toTopOf="parent">
+
+    </FrameLayout>
+</androidx.constraintlayout.widget.ConstraintLayout>
