@@ -75,7 +75,7 @@ public class Registro extends AppCompatActivity  {
             @Override
             public void onResponse(String response) {
                 if (response != null && response.length()>0) {
-                    if (response.equalsIgnoreCase("correcto")) {
+                    if (response.trim().equalsIgnoreCase("correcto")) {
                         registrar(); //si no esta, se registra el usuario
                     } else{ //nombre de usuario ya cogido
                         errorAlert();

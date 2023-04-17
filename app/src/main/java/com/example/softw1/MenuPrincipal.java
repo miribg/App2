@@ -214,7 +214,7 @@ public class MenuPrincipal extends AppCompatActivity {
             @Override
             public void onResponse(String response) {
                 if (response != null && response.length()>0) {
-                    if (!response.equalsIgnoreCase("incorrecto")) {
+                    if (!response.trim().equalsIgnoreCase("incorrecto")) {
                         colorB=response;
                     }
                 }else{      //en el caso de no haber escogido ninguno
