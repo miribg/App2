@@ -203,7 +203,7 @@ public class MyAdapter extends RecyclerView.Adapter<MyAdapter.MyViewHolder> {
 
     private void obtenerArchivo(View vi, int pos, boolean enseñar){
         //obtener las notas desdes la base de datos
-        String url = "http://192.168.1.135/developeru/eventoJS.php";
+        String url = "http://192.168.1.139/developeru/eventoJS.php";
         StringRequest stringRequest = new StringRequest(Request.Method.POST, url, new Response.Listener<String>() {
             @Override
             public void onResponse(String response) {
@@ -237,7 +237,8 @@ public class MyAdapter extends RecyclerView.Adapter<MyAdapter.MyViewHolder> {
 
     private void deleteDb (View vi, int pos){
         //borrar de la base de datos el evento seleccionado
-        String url = "http://192.168.1.135/developeru/eliminar_evento.php";
+     //   String url = "http://192.168.1.139/developeru/eliminar_evento.php";
+        String url="http://ec2-54-93-62-124.eu-central-1.compute.amazonaws.com/mbergaz001/WEB/developeru/elimar_evento.php";
         StringRequest stringRequest = new StringRequest(Request.Method.POST, url, new Response.Listener<String>() {
             @Override
             public void onResponse(String response) {

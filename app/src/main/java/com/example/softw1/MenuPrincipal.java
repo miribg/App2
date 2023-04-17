@@ -208,7 +208,8 @@ public class MenuPrincipal extends AppCompatActivity {
 
     private void obtenerColor(){
         //se obtiene el color elegido por el usuario
-        String url = "http://192.168.1.135/developeru/color.php";
+       // String url = "http://192.168.1.139/developeru/color.php";
+        String url="http://ec2-54-93-62-124.eu-central-1.compute.amazonaws.com/mbergaz001/WEB/developeru/color.php";
         StringRequest stringRequest = new StringRequest(Request.Method.POST, url, new Response.Listener<String>() {
             @Override
             public void onResponse(String response) {
@@ -558,6 +559,10 @@ public class MenuPrincipal extends AppCompatActivity {
                         0);
             }
         }
+    }
+
+    private void abrirCalendar(){
+
     }
     private void cambiarIdioma(String idioma){
         Locale nuevaloc = new Locale(idioma);

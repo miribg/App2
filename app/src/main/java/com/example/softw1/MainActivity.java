@@ -28,6 +28,10 @@ import com.android.volley.VolleyError;
 import com.android.volley.toolbox.StringRequest;
 import com.android.volley.toolbox.Volley;
 
+import java.io.IOException;
+import java.net.HttpURLConnection;
+import java.net.MalformedURLException;
+import java.net.URL;
 import java.util.HashMap;
 import java.util.Locale;
 import java.util.Map;
@@ -103,12 +107,23 @@ public class MainActivity extends AppCompatActivity {
 
     private void validarUsuario()  {
         // comprueba que exista un usuario con ese nombre y contraseña
-        String url = "http://192.168.1.135/developeru/validar_usuario.php";
+       // String url = "http://192.168.1.139/developeru/validar_usuario.php";
+        String url="http://ec2-54-93-62-124.eu-central-1.compute.amazonaws.com/mbergaz001/WEB/developeru/validar_usuario.php";
+       /* try{
+            URL destino= new URL(url) ;
+            HttpURLConnection urlConnection= (HttpURLConnection) destino.openConnection();
+            urlConnection.setConnectTimeout(5000);
+            urlConnection.setReadTimeout(5000);
+        } catch (MalformedURLException e) {
+            throw new RuntimeException(e);
+        } catch (IOException e) {
+            throw new RuntimeException(e);
+        }*/
         StringRequest stringRequest = new StringRequest(Request.Method.POST, url, new Response.Listener<String>() {
             @Override
             public void onResponse(String response) {
                 if (response != null && response.length()>0){
-                    if (response.equalsIgnoreCase("ingreso correctamente")) {
+                    if (response.trim().equalsIgnoreCase("ingreso correctamente")) {
                         Intent intent = new Intent(getApplicationContext(), MenuPrincipal.class);
                         intent.putExtra("name",str_name);
                         startActivity(intent);

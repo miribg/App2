@@ -73,12 +73,13 @@ public class ListaEventos extends AppCompatActivity {
 
    private void obtenerEventos(){
         //obtener todos los eventos de la persona usuaria que ha echo login
-        String url = "http://192.168.1.135/developeru/eventos.php";
+        //String url = "http://192.168.1.139/developeru/eventos.php";
+        String url="http://ec2-54-93-62-124.eu-central-1.compute.amazonaws.com/mbergaz001/WEB/developeru/eventos.php";
         StringRequest stringRequest = new StringRequest(Request.Method.POST, url, new Response.Listener<String>() {
             @Override
             public void onResponse(String response) {;
                 if (response != null && response.length()>0) {
-                    if (response.equalsIgnoreCase("incorrecto")) {
+                    if (response.trim().equalsIgnoreCase("incorrecto")) {
                     }else{
                         String [] eventos= response.split("\\|"); //separar el string por eventos
                         for (int i=0;i< eventos.length;i++) {
