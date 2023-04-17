@@ -70,6 +70,7 @@ public class Registro extends AppCompatActivity  {
     private void comprobarNombreUsuario(){
         //comprueba que el nombre de usuario no esta ya en la base de datos
         //String url = "http://192.168.1.139/developeru/doble.php";
+
         String url="http://ec2-54-93-62-124.eu-central-1.compute.amazonaws.com/mbergaz001/WEB/developeru/doble.php";
         StringRequest stringRequest = new StringRequest(Request.Method.POST, url, new Response.Listener<String>() {
             @Override
