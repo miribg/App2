@@ -81,7 +81,7 @@ public class ListaEventos extends AppCompatActivity {
                 if (response != null && response.length()>0) {
                     if (response.trim().equalsIgnoreCase("incorrecto")) {
                     }else{
-                        String [] eventos= response.split("\\|"); //separar el string por eventos
+                        String [] eventos= response.trim().split("\\|"); //separar el string por eventos
                         for (int i=0;i< eventos.length;i++) {
                             String[] datos= eventos[i].split(","); //obtener todos los valores de cada evento
                             //añadir datos a los arrayList

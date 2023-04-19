@@ -204,13 +204,14 @@ public class MyAdapter extends RecyclerView.Adapter<MyAdapter.MyViewHolder> {
     private void obtenerArchivo(View vi, int pos, boolean enseñar){
         //obtener las notas desdes la base de datos
       //  String url = "http://192.168.1.139/developeru/eventoJS.php";
-        String url="http://ec2-54-93-62-124.eu-central-1.compute.amazonaws.com/mbergaz001/WEB/developeru/eventoJS.php";
+        String url="http://ec2-54-93-62-124.eu-central-1.compute.amazonaws.com/mbergaz001/WEB/developeru/eventoJs.php";
         StringRequest stringRequest = new StringRequest(Request.Method.POST, url, new Response.Listener<String>() {
             @Override
             public void onResponse(String response) {
                 if (response != null && response.length()>0) {
+                    Toast.makeText(context,""+response.trim(),Toast.LENGTH_LONG).show();
                     if (!response.trim().equalsIgnoreCase("incorrecto")) {
-                       notas=response;
+                       notas=response.trim();
                     }
                 }else{
                     notas="----------------"; //si esta vacio

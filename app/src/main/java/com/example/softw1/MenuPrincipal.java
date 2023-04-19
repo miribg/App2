@@ -215,7 +215,7 @@ public class MenuPrincipal extends AppCompatActivity {
             public void onResponse(String response) {
                 if (response != null && response.length()>0) {
                     if (!response.trim().equalsIgnoreCase("incorrecto")) {
-                        colorB=response;
+                        colorB=response.trim();
                     }
                 }else{      //en el caso de no haber escogido ninguno
                    colorB=obtenerColor(0, true);
@@ -306,11 +306,13 @@ public class MenuPrincipal extends AppCompatActivity {
                 DateFormat dateform1 = new SimpleDateFormat("yyyy/MM/dd");
                 Date dateS, dateF, timeS, timeF;
                 DateFormat dateForm = new SimpleDateFormat("HH:mm");
-                if (fechaI.equals("")) {        //tiene fecha de inicio
+                if (fechaI.equals("")) {        //no tiene fecha de inicio
                     fechaIAlert();
                     correcto = false;
                 } else {
-                    if (fechaF.equals("") || fechaF.equals(fechaI)) {
+                    if (fechaF.equals("") ){ //si no pone la fecha final, se adjudica la de inicio
+                        fechaF=fechaI;
+                    }if ( fechaF.equals(fechaI)) {
                         //comprobar que la hora de finalizar no sea antes de la de inicio: ya que es un solo día
                         if (!horI.equals("") && !horF.equals("")) {
                             try {
@@ -338,6 +340,9 @@ public class MenuPrincipal extends AppCompatActivity {
                     }
                 }
                 if (correcto) {
+                   if (color.equals("")){
+                        color=obtenerColor(0,false);
+                    }
                     añadirEvento();
                 }
 
@@ -465,12 +470,14 @@ public class MenuPrincipal extends AppCompatActivity {
 
     private void añadirEvento() {
         //inserta el evento con los datos metidos en la base de datos
-        String url = "http://192.168.1.135/developeru/añadir_evento.php";
+       // String url = "http://192.168.1.135/developeru/añadir_evento.php";
+        String url="http://ec2-54-93-62-124.eu-central-1.compute.amazonaws.com/mbergaz001/WEB/developeru/add_evento.php";
         StringRequest stringRequest = new StringRequest(Request.Method.POST, url, new Response.Listener<String>() {
             @Override
             public void onResponse(String response) {
+                Toast.makeText(MenuPrincipal.this, response.trim(),Toast.LENGTH_LONG).show();
                 if (response != null && response.length() > 0) {
-                    if (response.equalsIgnoreCase("evento añadido")) {
+                    if (response.trim().equalsIgnoreCase("evento añadido")) {
                         crearNotificacion(); //se notifica en el móvil
                     } else {
                         Toast.makeText(MenuPrincipal.this, "Algún dato incorrecto", Toast.LENGTH_LONG).show();
