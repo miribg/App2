@@ -113,11 +113,6 @@ public class MyAdapter extends RecyclerView.Adapter<MyAdapter.MyViewHolder> {
         // int pos=view.getVerticalScrollbarPosition();
         if (delete) {
             deleteDb(vi, pos);
-            name.remove(pos);
-            date.remove(pos);
-            place.remove(pos);
-            time.remove(pos);
-            notifyItemRemoved(pos);
         }
         else{
             alertArch(vi,pos);
@@ -240,24 +235,38 @@ public class MyAdapter extends RecyclerView.Adapter<MyAdapter.MyViewHolder> {
     private void deleteDb (View vi, int pos){
         //borrar de la base de datos el evento seleccionado
      //   String url = "http://192.168.1.139/developeru/eliminar_evento.php";
-        String url="http://ec2-54-93-62-124.eu-central-1.compute.amazonaws.com/mbergaz001/WEB/developeru/elimar_evento.php";
+        String url="http://ec2-54-93-62-124.eu-central-1.compute.amazonaws.com/mbergaz001/WEB/developeru/eliminar_evento.php";
         StringRequest stringRequest = new StringRequest(Request.Method.POST, url, new Response.Listener<String>() {
             @Override
             public void onResponse(String response) {
-               /* if (response != null && response.length()>0) {
-                    if (response.equalsIgnoreCase("borrado")) {
-                        Toast.makeText(context, "borrado", Toast.LENGTH_SHORT).show();
+                Log.d("RESP2",response);
+                if (response != null && response.length()>0) {
+                    if (response.trim().equalsIgnoreCase("borrado")) {
+                        name.remove(pos);
+                        date.remove(pos);
+                        place.remove(pos);
+                        time.remove(pos);
+                        notifyItemRemoved(pos);
                     }
-                }*/
+                }
             }
-        }, null
+        }//, null
+                , new Response.ErrorListener() {
+            @Override
+            public void onErrorResponse(VolleyError error) {
+                //TODO: CAMBIAR
+                Toast.makeText(context, error.toString(), Toast.LENGTH_LONG).show();
+                Log.d("error", error.toString());
+            }
+        }
         ) {
             @Nullable
             @Override
             protected Map<String, String> getParams() throws AuthFailureError {
                 //pasar parametros a la db
                 Map<String, String> parametros = new HashMap<String, String>();
-                parametros.put("id", (String) id.get(pos));
+                parametros.put("id", String.valueOf(id.get(pos)));
+                Log.d("PARAMS",String.valueOf(id.get(pos)));
                 return parametros;
             }
         };
