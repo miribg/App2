@@ -187,46 +187,16 @@ public class MainActivity extends AppCompatActivity {
         actualizar();
     }
 
-    private void actualizar(){
+    private void actualizar() {
         //actualiza los datos al idioma seleccionado
         et1.setHint(getString(R.string.str_uName));
         et2.setHint(getString(R.string.str_cont));
-        ArrayAdapter<CharSequence> adapter= ArrayAdapter.createFromResource(this, R.array.idiomas ,
+        ArrayAdapter<CharSequence> adapter = ArrayAdapter.createFromResource(this, R.array.idiomas,
                 android.R.layout.simple_spinner_item);
         spinner.setAdapter(adapter);
         btn_reg.setText(getString(R.string.btn_reg));
         btn_iniciar.setText(getString(R.string.btn_iniciar));
-    }
 
-    @Override
-    protected void onStart() {
-        // reiniciar: La actividad está a punto de hacerse visible.
-        super.onStart();
-       // Toast.makeText(this, "OnStart", Toast.LENGTH_SHORT).show();
-    }
-    @Override
-    protected void onResume() {
-        // hacer visible: La actividad se ha vuelto visible (ahora se "reanuda").
-        super.onResume();
-        //Toast.makeText(this, "OnResume", Toast.LENGTH_SHORT).show();
-    }
-    @Override
-    protected void onPause() {
-         // Pausar la actividad: poner la app en 2 plano
-        super.onPause();
-        //Toast.makeText(this, "OnPause", Toast.LENGTH_SHORT).show();
-    }
-    @Override
-    protected void onStop() {
-        //Oculta la actividad: 2 plano
-        super.onStop();
-       // Toast.makeText(this, "OnStop", Toast.LENGTH_SHORT).show();
-    }
-    @Override
-    protected void onDestroy() {
-        // cerrar la app:  no se puede recuperar
-        super.onDestroy();
-        //Toast.makeText(this, "OnDestroy", Toast.LENGTH_SHORT).show();
     }
 
 }
