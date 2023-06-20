@@ -106,7 +106,8 @@ public class Registro extends AppCompatActivity  {
     }
     private void registrar(){
         //se cogen todos los parametros y se hace un insert en la db
-        String url = "http://192.168.1.139/developeru/registrar.php";
+       // String url = "http://192.168.1.139/developeru/registrar.php";
+        String url="http://ec2-54-93-62-124.eu-central-1.compute.amazonaws.com/mbergaz001/WEB/developeru/registrar.php";
         StringRequest stringRequest = new StringRequest(Request.Method.POST, url, new Response.Listener<String>() {
             @Override
             public void onResponse(String response) {
