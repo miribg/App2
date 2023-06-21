@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    tools:showIn="navigation_view">
+
+    <group
+        android:checkableBehavior="single">
+        <item
+            android:id="@+id/inicio"
+            android:src="@mipmap/home_foto"
+            android:title="@string/inicio"/>
+        <item
+            android:id="@+id/ajustes"
+            android:src="@drawable/setting_foto_foreground"
+            android:title="@string/ajustes"/>
+        <item
+            android:id="@+id/correo"
+            android:src="@drawable/email_foto_foreground"
+            android:title="@string/str_corr"/>
+
+    </group>
+
+    <item
+        android:title="">
+
+        <menu>
+            <item
+                android:id="@+id/salir"
+                android:src="@drawable/salir_foto_foreground"
+                android:title="@string/salir"/>
+        </menu>
+    </item>
+
+</menu>

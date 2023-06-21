@@ -1,0 +1,43 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:padding="70dp"
+    android:background="@color/fondo">
+
+    <de.hdodenhof.circleimageview.CircleImageView
+        android:id="@+id/fotoPerfil"
+        android:layout_width="170dp"
+        android:layout_height="149dp"
+        android:layout_marginTop="28dp"
+        android:src="@drawable/hombre"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.439"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"></de.hdodenhof.circleimageview.CircleImageView>
+
+    <TextView
+        android:id="@+id/nombreUsuario"
+        android:layout_width="383dp"
+        android:layout_height="65dp"
+        android:layout_marginTop="32dp"
+        android:text="@string/str_uName"
+        android:textAlignment="center"
+        android:textColor="@color/white"
+        android:textSize="20sp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.571"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/fotoPerfil" />
+
+    <ImageView
+        android:id="@+id/camara"
+        android:layout_width="72dp"
+        android:layout_height="77dp"
+        app:srcCompat="@drawable/camara_foto_foreground"
+        tools:layout_editor_absoluteX="169dp"
+        tools:layout_editor_absoluteY="123dp" />
+
+</androidx.constraintlayout.widget.ConstraintLayout>

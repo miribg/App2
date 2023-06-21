@@ -13,7 +13,9 @@ import androidx.core.app.NotificationCompat;
 import androidx.core.app.NotificationManagerCompat;
 import androidx.core.content.ContextCompat;
 import androidx.core.content.res.ResourcesCompat;
+import androidx.core.view.GravityCompat;
 import androidx.core.view.ViewCompat;
+import androidx.drawerlayout.widget.DrawerLayout;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentTransaction;
 
@@ -32,12 +34,16 @@ import android.content.pm.PackageManager;
 import android.content.res.ColorStateList;
 import android.content.res.Configuration;
 import android.content.res.Resources;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.graphics.Color;
 import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
+import android.util.Base64;
 import android.util.Log;
 import android.view.LayoutInflater;
+import android.view.MenuItem;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
@@ -45,7 +51,9 @@ import android.widget.Button;
 import android.widget.CalendarView;
 import android.widget.DatePicker;
 import android.widget.EditText;
+import android.widget.ImageView;
 import android.widget.Spinner;
+import android.widget.TextView;
 import android.widget.TimePicker;
 import android.widget.Toast;
 import android.Manifest;
@@ -61,7 +69,9 @@ import com.darwindeveloper.onecalendar.clases.Day;
 import com.darwindeveloper.onecalendar.views.OneCalendarView;
 import com.getbase.floatingactionbutton.FloatingActionButton;
 import com.getbase.floatingactionbutton.FloatingActionsMenu;
+import com.google.android.material.navigation.NavigationView;
 
+import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.lang.reflect.Array;
@@ -75,15 +85,17 @@ import java.util.HashMap;
 import java.util.Locale;
 import java.util.Map;
 
-public class MenuPrincipal extends AppCompatActivity {
+public class MenuPrincipal extends AppCompatActivity implements NavigationView.OnNavigationItemSelectedListener {
 
     private CalendarView calV;
-    private FloatingActionButton fab1, fab2;
     private Spinner  sp2, sp3;
     private Button btn;
     private String str_name, fechaI, fechaF, horI, horF, lug, tit, notas, color, colorB;
     private int seleccion;
     private EditText etf1, etf2, eth1, eth2, ett, etl, etn;
+    private DrawerLayout drawerLayout;
+    private NavigationView navigationView;
+    private View headerView;
 
     @SuppressLint("MissingInflatedId")
     @Override
@@ -137,7 +149,7 @@ public class MenuPrincipal extends AppCompatActivity {
             }
         });
 
-        fab1 = (FloatingActionButton) findViewById(R.id.floatingActionButton);  //cambiar color
+        /*fab1 = (FloatingActionButton) findViewById(R.id.floatingActionButton);  //cambiar color
         fab2 = (FloatingActionButton) findViewById(R.id.floatingActionButton2); //abrir el correo
         fab1.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -158,9 +170,24 @@ public class MenuPrincipal extends AppCompatActivity {
                 intent.setData(Uri.parse("mailto:"));
                 startActivity(intent);
             }
+        });*/
+
+        drawerLayout= findViewById(R.id.drawer_layout);
+        ImageView menu= findViewById(R.id.menu);
+        navigationView = findViewById(R.id.navigationView);
+        navigationView.setNavigationItemSelectedListener(this);
+
+        menu.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                drawerLayout.openDrawer(GravityCompat.START);
+            }
         });
 
+        cargarDatosMenu();
+        navigationView.setNavigationItemSelectedListener(this);
     }
+
 
     // You can do the assignment inside onAttach or onCreate, i.e, before the activity is displayed
     ActivityResultLauncher<Intent> someActivityResultLauncher = registerForActivityResult(
@@ -536,6 +563,83 @@ public class MenuPrincipal extends AppCompatActivity {
             }
         }
     }
+
+    @Override
+    public boolean onNavigationItemSelected(@NonNull MenuItem item) {
+        Intent intent;
+        switch(item.getItemId()){
+            case R.id.salir:
+                intent = new Intent(getApplicationContext(), MainActivity.class);
+                startActivity(intent);
+                finish();
+                break;
+            case R.id.correo:
+                //email
+                intent = new Intent(Intent.ACTION_SENDTO);
+                intent.setData(Uri.parse("mailto:"));
+                startActivity(intent);
+                break;
+            case R.id.ajustes:
+                //se abre escoger color y idioma
+                intent = new Intent(getApplicationContext(), EscogerColor.class);
+                intent.putExtra("color", colorB);
+                intent.putExtra("user_name", str_name);
+                someActivityResultLauncher.launch(intent);
+                break;
+        }
+        return true;
+    }
+
+    private void cargarDatosMenu() {
+        headerView = navigationView.getHeaderView(0);
+        TextView navUsername = (TextView) headerView.findViewById(R.id.nombreUsuario);
+        navUsername.setText(str_name);
+       /* ImageView imageView = (ImageView) headerView.findViewById(R.id.fotoPerfil);
+        String URL = "http://ec2-54-93-62-124.eu-central-1.compute.amazonaws.com/imugica037/WEB/restaurante_php/get_user.php";
+        StringRequest stringRequest = new StringRequest(Request.Method.POST, URL, new Response.Listener<String>() {
+            @Override
+            public void onResponse(String response) {
+                if (!response.isEmpty()) {
+                    JSONObject obj;
+                    try {
+                        obj = new JSONObject(response);
+                    } catch (JSONException e) {
+                        throw new RuntimeException(e);
+                    }
+
+                    byte[] decodedString = new byte[0];//String-->Image
+                    try {
+                        decodedString = Base64.decode(obj.getString("foto"), Base64.DEFAULT);
+                    } catch (JSONException e) {
+                        throw new RuntimeException(e);
+                    }
+                    Bitmap decodedByte = BitmapFactory.decodeByteArray(decodedString, 0, decodedString.length);
+                    imageView.setImageBitmap(decodedByte);
+                }
+            }
+        }, new Response.ErrorListener() {
+            @Override
+            public void onErrorResponse(VolleyError error) {
+                Toast.makeText(MenuPrincipal.this, "Error: " + error.toString(), Toast.LENGTH_SHORT).show();
+            }
+        }) {
+            @Override
+            protected Map<String, String> getParams() throws AuthFailureError {
+                //añadir elementos para realizar la consulta
+                Map<String, String> parametros = new HashMap<String, String>();
+                parametros.put("email", navUsername.getText().toString());
+                return parametros;
+            }
+        };
+        RequestQueue requestQue = Volley.newRequestQueue(this);
+        requestQue.add(stringRequest);*/
+    }
+
+    public void onResume(){
+        super.onResume();
+        cargarDatosMenu();
+    }
+
 
 }
 

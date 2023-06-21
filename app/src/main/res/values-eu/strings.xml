@@ -48,6 +48,9 @@
     <string name="noFecha"> Noiz: </string>
     <string name="noHora"> Ordua: </string>
     <string name="Preg">Nahi duzu mezu elektroniko baten bidali oharrak?</string>
+    <string name="ajustes">Doitze</string>
+    <string name="inicio">Hasiera</string>
+    <string name="salir">Saioa itxi</string>
     <string-array name="idiomas">
         <item> Hizkuntza </item>
         <item> eu </item>

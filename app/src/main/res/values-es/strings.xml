@@ -48,6 +48,9 @@
     <string name="noFecha"> Fecha: </string>
     <string name="noHora"> Horario: </string>
     <string name="Preg">¿Quieres mandar en un correo las notas?</string>
+    <string name="ajustes">Ajustes</string>
+    <string name="inicio">Inicio</string>
+    <string name="salir">Cerrar sesión</string>
     <string-array name="idiomas">
         <item> Idioma </item>
         <item> eu </item>
