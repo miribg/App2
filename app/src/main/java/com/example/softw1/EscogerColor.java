@@ -2,9 +2,13 @@ package com.example.softw1;
 
 import static android.content.res.Configuration.ORIENTATION_LANDSCAPE;
 
+import android.annotation.SuppressLint;
 import android.app.Activity;
+import android.content.ContentValues;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.content.SharedPreferences;
+import android.database.sqlite.SQLiteDatabase;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -19,6 +23,7 @@ import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentTransaction;
+import androidx.preference.PreferenceManager;
 
 import com.android.volley.AuthFailureError;
 import com.android.volley.Request;
@@ -34,21 +39,20 @@ import java.util.concurrent.ThreadFactory;
 
 public class EscogerColor extends AppCompatActivity {
 
-    Fragment  frCol; //mediante este atributo se puede ver el fragment pintado
-    FragmentTransaction transaction; //para gestionar el cambio de color del fragment
-
-    Button btn_vol, btn_guar;
-
-    Spinner sp; //opciones de colores
-
-    String color, colorEsc, str_name;
+    private Fragment  frCol; //mediante este atributo se puede ver el fragment pintado
+    private FragmentTransaction transaction; //para gestionar el cambio de color del fragment
+    private Button btn_vol, btn_guar;
+    private Spinner sp, spId ; //opciones de colores (sp)
+    private String color, colorEsc, str_name;
 
 
+    @SuppressLint("MissingInflatedId")
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_eleccion_color);
 
-
+        //aparece lo de las preferencias
+        getSupportFragmentManager().beginTransaction().replace(R.id.contenedor,new PreferenceFragment()).commit();
 
         //obtener valores del MenuPrincipal
         str_name=getIntent().getExtras().getString("user_name");
@@ -59,7 +63,7 @@ public class EscogerColor extends AppCompatActivity {
         frCol=new ColorFragment(Integer.parseInt(color));
         getSupportFragmentManager().beginTransaction().add(R.id.fragmentC,frCol).commit();
 
-        sp= findViewById(R.id.spinnerCol2);
+       sp= findViewById(R.id.spinnerCol2);
         sp.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             @Override
             public void onItemSelected(AdapterView<?> adapterView, View view, int i, long l) {
@@ -70,7 +74,6 @@ public class EscogerColor extends AppCompatActivity {
                   if ( getResources().getConfiguration().orientation==ORIENTATION_LANDSCAPE){
                         obtenerColor(i);
                   }
-
                 }
                 transaction=getSupportFragmentManager().beginTransaction();
                 frCol=new ColorFragment(Integer.parseInt(colorEsc));
@@ -99,6 +102,7 @@ public class EscogerColor extends AppCompatActivity {
         btn_guar.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
+                SharedPreferences pref= PreferenceManager.getDefaultSharedPreferences(EscogerColor.this);
                 if (!colorEsc.equals(color)){
                     color=colorEsc;
                     //en el caso de haber cambiado de color guardarlo en la db
@@ -117,12 +121,10 @@ public class EscogerColor extends AppCompatActivity {
         //conseguir en string el color seleccionado
         int[] coloresOp= getResources().getIntArray(R.array.coloresOp);
         colorEsc= String.valueOf(coloresOp[i]);
-        //Toast.makeText(this, "color"+color, Toast.LENGTH_SHORT).show();
     }
 
     private void updateColor(){
         //actualizar en la base datos el color
-       // String url = "http://192.168.1.139/developeru/updateCol.php";
         String url="http://ec2-54-93-62-124.eu-central-1.compute.amazonaws.com/mbergaz001/WEB/developeru/updateCol.php";
         StringRequest stringRequest = new StringRequest(Request.Method.POST, url, new Response.Listener<String>() {
             @Override
@@ -148,35 +150,6 @@ public class EscogerColor extends AppCompatActivity {
         requestQueue.add(stringRequest);
     }
 
-    protected void onStart() {
-        // reiniciar
-        super.onStart();
-        //Toast.makeText(this, "OnStart", Toast.LENGTH_SHORT).show();
-    }
-    @Override
-    protected void onResume() {
-        // hacer visible
-        super.onResume();
-        //Toast.makeText(this, "OnResume", Toast.LENGTH_SHORT).show();.
-    }
-    @Override
-    protected void onPause() {
-        // Pausar la actividad: poner la app en 2 plano
-        super.onPause();
-        //Toast.makeText(this, "OnPause", Toast.LENGTH_SHORT).show();
-    }
-    @Override
-    protected void onStop() {
-        //Oculta la actividad: 2 plano
-        super.onStop();
-        //Toast.makeText(this, "OnStop", Toast.LENGTH_SHORT).show();
-    }
-    @Override
-    protected void onDestroy() {
-        // cerrar la app:  no se puede recuoerar
-        super.onDestroy();
-        // Toast.makeText(this, "OnDestroy", Toast.LENGTH_SHORT).show();
-    }
 
 
 }

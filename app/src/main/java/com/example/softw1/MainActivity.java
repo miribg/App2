@@ -41,9 +41,7 @@ public class MainActivity extends AppCompatActivity {
     private EditText et1, et2;
     private TextView btn_reg;
     private Button btn_iniciar;
-
     private Spinner spinner;
-
     private String str_name, str_password;
 
 
@@ -98,7 +96,6 @@ public class MainActivity extends AppCompatActivity {
                 if (!str_name.isEmpty() && !str_password.isEmpty()) {
                    validarUsuario();
                 } else {
-                    //  TODO: Dialogo mejor
                     Toast.makeText(MainActivity.this, R.string.vacio, Toast.LENGTH_SHORT).show();
                 }
             }
@@ -109,16 +106,6 @@ public class MainActivity extends AppCompatActivity {
         // comprueba que exista un usuario con ese nombre y contraseña
        // String url = "http://192.168.1.139/developeru/validar_usuario.php";
         String url="http://ec2-54-93-62-124.eu-central-1.compute.amazonaws.com/mbergaz001/WEB/developeru/validar_usuario.php";
-       /* try{
-            URL destino= new URL(url) ;
-            HttpURLConnection urlConnection= (HttpURLConnection) destino.openConnection();
-            urlConnection.setConnectTimeout(5000);
-            urlConnection.setReadTimeout(5000);
-        } catch (MalformedURLException e) {
-            throw new RuntimeException(e);
-        } catch (IOException e) {
-            throw new RuntimeException(e);
-        }*/
         StringRequest stringRequest = new StringRequest(Request.Method.POST, url, new Response.Listener<String>() {
             @Override
             public void onResponse(String response) {
@@ -196,7 +183,6 @@ public class MainActivity extends AppCompatActivity {
         spinner.setAdapter(adapter);
         btn_reg.setText(getString(R.string.btn_reg));
         btn_iniciar.setText(getString(R.string.btn_iniciar));
-
     }
 
 }

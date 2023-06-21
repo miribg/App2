@@ -77,15 +77,13 @@ import java.util.Map;
 
 public class MenuPrincipal extends AppCompatActivity {
 
-    // OneCalendarView calV;
-    CalendarView calV;
-    FloatingActionButton fab1, fab2;
-
-    Spinner sp1, sp2, sp3;
-    Button btn;
-    String str_name, fechaI, fechaF, horI, horF, lug, tit, notas, color, colorB;
-    int seleccion;
-    EditText etf1, etf2, eth1, eth2, ett, etl, etn;
+    private CalendarView calV;
+    private FloatingActionButton fab1, fab2;
+    private Spinner  sp2, sp3;
+    private Button btn;
+    private String str_name, fechaI, fechaF, horI, horF, lug, tit, notas, color, colorB;
+    private int seleccion;
+    private EditText etf1, etf2, eth1, eth2, ett, etl, etn;
 
     @SuppressLint("MissingInflatedId")
     @Override
@@ -100,22 +98,6 @@ public class MenuPrincipal extends AppCompatActivity {
         calV = (CalendarView) findViewById(R.id.calendarView);
         calV.setFirstDayOfWeek(2); //2=Monday
 
-        // Opción de cambiar idioma
-        sp1 = (Spinner) findViewById(R.id.spinnerId2);
-        sp1.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
-            @Override
-            public void onItemSelected(AdapterView<?> adapterView, View view, int i, long l) {
-                if (i != 0) {   //si ha escogido un idioma
-                    String idioma = adapterView.getItemAtPosition(i).toString();  //obtiene el valor escogido
-                    cambiarIdioma(idioma);
-                }
-            }
-
-            @Override
-            public void onNothingSelected(AdapterView<?> adapterView) {
-            }
-        });
-
         //Escoger operación que se quiere realizar
         sp2 = (Spinner) findViewById(R.id.spinnerOp);
         sp2.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
@@ -128,10 +110,9 @@ public class MenuPrincipal extends AppCompatActivity {
             public void onNothingSelected(AdapterView<?> adapterView) {}
         });
 
-
-        obtenerColor();
         //clickar botón aceptar
         btn = (Button) findViewById(R.id.okbutton);
+        obtenerColor();
         btn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -140,8 +121,6 @@ public class MenuPrincipal extends AppCompatActivity {
                 intent.putExtra("color",colorB);
                 switch (seleccion) {
                     case 1: //ver eventos
-                        // intent= new Intent(getApplicationContext(), ListaEventos.class);
-                     //   intent.putExtra("click", false);
                         intent.putExtra("delete", "false");
                         startActivity(intent);
                         break;
@@ -149,16 +128,9 @@ public class MenuPrincipal extends AppCompatActivity {
                         añadirEventoAlert();
                         break;
                     case 3: //eliminar eventos
-                        //  intent= new Intent(getApplicationContext(), ListaEventos.class);
-                       // intent.putExtra("click", true);
                         intent.putExtra("delete", "true");
                         startActivity(intent);
                         break;
-                  /*  case 4: //Modificar eventos
-                        intent.putExtra("click", true);
-                        intent.putExtra("delete", false);
-                        startActivity(intent);
-                        break;*/
                     default: //nada
                         break;
                 }
@@ -208,7 +180,6 @@ public class MenuPrincipal extends AppCompatActivity {
 
     private void obtenerColor(){
         //se obtiene el color elegido por el usuario
-       // String url = "http://192.168.1.139/developeru/color.php";
         String url="http://ec2-54-93-62-124.eu-central-1.compute.amazonaws.com/mbergaz001/WEB/developeru/color.php";
         StringRequest stringRequest = new StringRequest(Request.Method.POST, url, new Response.Listener<String>() {
             @Override
@@ -310,9 +281,7 @@ public class MenuPrincipal extends AppCompatActivity {
                     fechaIAlert();
                     correcto = false;
                 } else {
-                    if (fechaF.equals("") ){ //si no pone la fecha final, se adjudica la de inicio
-                        fechaF=fechaI;
-                    }if ( fechaF.equals(fechaI)) {
+                    if (fechaF.equals("") || fechaF.equals(fechaI)) {  //mismo día
                         //comprobar que la hora de finalizar no sea antes de la de inicio: ya que es un solo día
                         if (!horI.equals("") && !horF.equals("")) {
                             try {
@@ -340,10 +309,12 @@ public class MenuPrincipal extends AppCompatActivity {
                     }
                 }
                 if (correcto) {
-                   if (color.equals("")){
+                 /*  if (color.equals("")){
                         color=obtenerColor(0,false);
-                    }
+                    }*/
                     añadirEvento();
+                }else {
+                    Toast.makeText(MenuPrincipal.this, R.string.incorrecto, Toast.LENGTH_LONG).show();
                 }
 
             }
@@ -470,20 +441,18 @@ public class MenuPrincipal extends AppCompatActivity {
 
     private void añadirEvento() {
         //inserta el evento con los datos metidos en la base de datos
-       // String url = "http://192.168.1.135/developeru/añadir_evento.php";
         String url="http://ec2-54-93-62-124.eu-central-1.compute.amazonaws.com/mbergaz001/WEB/developeru/add_evento.php";
         StringRequest stringRequest = new StringRequest(Request.Method.POST, url, new Response.Listener<String>() {
             @Override
             public void onResponse(String response) {
-                Toast.makeText(MenuPrincipal.this, response.trim(),Toast.LENGTH_LONG).show();
                 if (response != null && response.length() > 0) {
                     if (response.trim().equalsIgnoreCase("evento añadido")) {
                         crearNotificacion(); //se notifica en el móvil
                     } else {
-                        Toast.makeText(MenuPrincipal.this, "Algún dato incorrecto", Toast.LENGTH_LONG).show();
+                        Toast.makeText(MenuPrincipal.this, R.string.incorrecto, Toast.LENGTH_LONG).show();
                     }
                 } else {
-                    Toast.makeText(MenuPrincipal.this, "No parametrs", Toast.LENGTH_LONG).show();
+                    Toast.makeText(MenuPrincipal.this, R.string.noValores, Toast.LENGTH_LONG).show();
                 }
             }
         }, new Response.ErrorListener() {
@@ -568,84 +537,7 @@ public class MenuPrincipal extends AppCompatActivity {
         }
     }
 
-    private void abrirCalendar(){
-
-    }
-    private void cambiarIdioma(String idioma){
-        Locale nuevaloc = new Locale(idioma);
-        Locale.setDefault(nuevaloc);
-        Resources resources= getBaseContext().getResources();
-        Configuration configuration =resources.getConfiguration();
-        configuration.setLocale(nuevaloc);
-        configuration.setLayoutDirection(nuevaloc);
-        Context context = getBaseContext().createConfigurationContext(configuration);
-        resources.updateConfiguration(configuration, context.getResources().getDisplayMetrics());
-        actualizar();
-    }
-
-    private void actualizar(){
-        //actualiza los datos al idioma seleccionado
-        btn.setText(R.string.btn_acep);
-        ArrayAdapter<CharSequence> adapter= ArrayAdapter.createFromResource(this, R.array.idiomas ,
-                android.R.layout.simple_spinner_item);
-        sp1.setAdapter(adapter);
-        adapter=ArrayAdapter.createFromResource(this, R.array.operaciones ,android.R.layout.simple_spinner_item);
-        sp2.setAdapter(adapter);
-    }
-
-    @Override
-    protected void onStart() {
-        // reiniciar
-        super.onStart();
-        //Toast.makeText(this, "OnStart", Toast.LENGTH_SHORT).show();
-        // La actividad está a punto de hacerse visible.
-    }
-    @Override
-    protected void onResume() {
-        // hacer visible
-        super.onResume();
-        //Toast.makeText(this, "OnResume", Toast.LENGTH_SHORT).show();
-        // La actividad se ha vuelto visible (ahora se "reanuda").
-    }
-    @Override
-    protected void onPause() {
-        // Pausar la actividad: poner la app en 2 plano
-        super.onPause();
-        //Toast.makeText(this, "OnPause", Toast.LENGTH_SHORT).show();
-        // Enfocarse en otra actividad  (esta actividad est� a punto de ser "detenida").
-    }
-    @Override
-    protected void onStop() {
-        //Oculta la actividad: 2 plano
-        super.onStop();
-        //Toast.makeText(this, "OnStop", Toast.LENGTH_SHORT).show();
-        // La actividad ya no es visible (ahora est� "detenida")
-    }
-    @Override
-    protected void onDestroy() {
-        // cerrar la app:  no se puede recuoerar
-        super.onDestroy();
-       // Toast.makeText(this, "OnDestroy", Toast.LENGTH_SHORT).show();
-        // La actividad est� a punto de ser destruida.
-    }
 }
 
-   /* private void archJson(){
-            String path = "/app/json/companies.json";
-            arch = new JSONObject();
-            try {
-                /*arch.put("Titulo", tit);
-                arch.put("Fecha de inicio",fechaI);
-                arch.put("Horario",horI);
-                arch.put("Notas", notas);
-            } catch (JSONException e) {
-                e.printStackTrace();
-            }
 
-            try (PrintWriter out = new PrintWriter(new FileWriter(path))) {
-                out.write(arch.toString());
-            } catch (Exception e) {
-                e.printStackTrace();
-            }
-    }*/
 

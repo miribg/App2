@@ -58,13 +58,10 @@ import java.util.HashMap;
 import java.util.Map;
 
 public class MyAdapter extends RecyclerView.Adapter<MyAdapter.MyViewHolder> {
-    Context context;
-    ArrayList name,date, time, place, id, color;
-
-    String notas;
-
-    boolean delete;
-
+    private Context context;
+    private ArrayList name,date, time, place, id, color;
+    private String notas;
+    private boolean delete;
 
     public MyAdapter(Context context, ArrayList name, ArrayList date, ArrayList time, ArrayList place, ArrayList id,
                      ArrayList color,  boolean delete) {
@@ -139,10 +136,7 @@ public class MyAdapter extends RecyclerView.Adapter<MyAdapter.MyViewHolder> {
                     }
                 });
         AlertDialog alert= al.create();
-    //    alert.setMessage(text);
         alert.show();
-
-        //builder.setMessage(R.string.dialog_start_game)
     }
 
     private void crearArchText(String text, int pos){
@@ -198,17 +192,22 @@ public class MyAdapter extends RecyclerView.Adapter<MyAdapter.MyViewHolder> {
 
     private void obtenerArchivo(View vi, int pos, boolean enseñar){
         //obtener las notas desdes la base de datos
-      //  String url = "http://192.168.1.139/developeru/eventoJS.php";
         String url="http://ec2-54-93-62-124.eu-central-1.compute.amazonaws.com/mbergaz001/WEB/developeru/eventoJs.php";
         StringRequest stringRequest = new StringRequest(Request.Method.POST, url, new Response.Listener<String>() {
             @Override
             public void onResponse(String response) {
+                boolean vacio=false;
                 if (response != null && response.length()>0) {
-                    Toast.makeText(context,""+response.trim(),Toast.LENGTH_LONG).show();
                     if (!response.trim().equalsIgnoreCase("incorrecto")) {
                        notas=response.trim();
+                       if (notas.isEmpty()){
+                           vacio=true;
+                       }
                     }
                 }else{
+                    vacio=true;
+                }
+                if (vacio){
                     notas="----------------"; //si esta vacio
                 }
                 if (enseñar){       //si no se manda correo, true
@@ -234,12 +233,10 @@ public class MyAdapter extends RecyclerView.Adapter<MyAdapter.MyViewHolder> {
 
     private void deleteDb (View vi, int pos){
         //borrar de la base de datos el evento seleccionado
-     //   String url = "http://192.168.1.139/developeru/eliminar_evento.php";
         String url="http://ec2-54-93-62-124.eu-central-1.compute.amazonaws.com/mbergaz001/WEB/developeru/eliminar_evento.php";
         StringRequest stringRequest = new StringRequest(Request.Method.POST, url, new Response.Listener<String>() {
             @Override
             public void onResponse(String response) {
-                Log.d("RESP2",response);
                 if (response != null && response.length()>0) {
                     if (response.trim().equalsIgnoreCase("borrado")) {
                         name.remove(pos);
@@ -278,12 +275,10 @@ public class MyAdapter extends RecyclerView.Adapter<MyAdapter.MyViewHolder> {
 
     public class MyViewHolder extends RecyclerView.ViewHolder implements  View.OnClickListener{
 
-        CardView card;
+        private CardView card;
         //TODO linearlayout
-        TextView name, place, date, time;
+        private TextView name, place, date, time;
 
-
-        MyAdapter adapter;
         public MyViewHolder(@NonNull View itemView) {
             super(itemView);
             name=itemView.findViewById(R.id.recTit);

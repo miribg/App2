@@ -1,30 +1,39 @@
 <resources>
-        <string name="app_name">ULERTUZ APP</string>
-    <string name="str_name"> Nombre </string>
-    <string name="str_ape"> Apellido </string>
-    <string name="str_uName"> Nombre de usuario </string>
-    <string name="str_cont"> Contraseña </string>
-    <string name="str_corr"> Correo electrónico </string>
-    <string name="str_tit"> Título </string>
-    <string name="str_tel"> Teléfono </string>
-    <string name="str_fechI"> Fecha de inicio</string>
-    <string name="str_fechF"> Fecha final</string>
-    <string name="str_horarioI"> Horario inicio</string>
-    <string name="str_horarioF"> Horario final</string>
-    <string name="str_lugar"> Lugar </string>
+    <string name="app_name">ULERTUZ APP</string>
+    <string name="str_name">Nombre </string>
+    <string name="str_ape">Apellido </string>
+    <string name="str_uName">Nombre de usuario </string>
+    <string name="str_cont">Contraseña </string>
+    <string name="str_corr">Correo electrónico </string>
+    <string name="str_tit">Título </string>
+    <string name="str_fechI">Fecha de inicio</string>
+    <string name="str_fechF">Fecha final</string>
+    <string name="str_horarioI">Horario inicio</string>
+    <string name="str_horarioF">Horario final</string>
+    <string name="str_lugar">Lugar </string>
     <string name="str_notas">Notas </string>
-    <string name="btn_iniciar"> Iniciar </string>
+    <string name="str_tel">Teléfono </string>
+    <string name="btn_iniciar">Iniciar </string>
     <string name="btn_reg"> Registrar </string>
     <string name="btn_guardar"> Guardar </string>
     <string name="btn_acep"> Aceptar </string>
     <string name="btn_canc"> Cancelar </string>
     <string name="tit_reg"> REGISTRO </string>
-    <string name="tit_an">Añadir evento</string>
     <string name="tit_bor"> Evento borrado</string>
-    <string name="titulo">Eventos</string>
+    <string name="tit_an">Añadir evento</string>
+    <string name="tit_idioma1">¿Cual es tu idioma preferido?</string>
+    <string name="tit_idioma2">Elige un idioma:</string>
+    <string name="tit_color1">¿Cual es tu color preferido?</string>
+    <string name="titulo">EVENTOS</string>
     <string name="btn_volver"> Volver </string>
     <string name="escogerC">Escoge un color</string>
     <string name="vacio">Algún parametro vacio</string>
+    <string name="noValores">Sin parametros</string>
+    <string name="incorrecto">Algún dato incorrecto</string>
+    <string name="vacHorario">Debes poner horario de iniciar .</string>
+    <string name="vacioReg">Rellena nombre de usuario y contraseña</string>
+    <string name="formatoCorreo">Formato de correo incorrecto</string>
+    <string name="formatoTel">Formato de telefono incorrecto: debe tener 9 digitos</string>
     <string name="errorSign">Nombre de usuario o contraseña incorrecta</string>
     <string name="errorSignEn">Incorrecto</string>
     <string name="errorRepe">Ya existe un usuario con ese nombre. Inserta otro.</string>
@@ -41,6 +50,10 @@
     <string name="Preg">¿Quieres mandar en un correo las notas?</string>
     <string-array name="idiomas">
         <item> Idioma </item>
+        <item> eu </item>
+        <item> es </item>
+    </string-array>
+    <string-array name="idiomasPref">
         <item> eu </item>
         <item> es </item>
     </string-array>

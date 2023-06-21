@@ -29,16 +29,12 @@ import java.util.HashMap;
 import java.util.Map;
 
 public class ListaEventos extends AppCompatActivity {
-    String str_name;
-
-    Button btn_ret;
-
-    boolean delete;
-
-    RecyclerView recycleView;
-    ArrayList<String> name, date, time, lug, id, color;
-
-    MyAdapter adapter;
+    private String str_name;
+    private Button btn_ret;
+    private boolean delete;
+    private RecyclerView recycleView;
+    private ArrayList<String> name, date, time, lug, id, color;
+    private MyAdapter adapter;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -47,7 +43,6 @@ public class ListaEventos extends AppCompatActivity {
 
         //obtener valores del Menu Principal
         str_name= getIntent().getExtras().getString("name");
-       //click= Boolean.parseBoolean(getIntent().getExtras().getString("click"));
         delete= Boolean.parseBoolean(getIntent().getExtras().getString("delete"));
         //boton volver
         btn_ret=(Button) findViewById(R.id.buttonVol);
@@ -134,34 +129,4 @@ public class ListaEventos extends AppCompatActivity {
         requestQueue.add(stringRequest);
     }
 
-
-    protected void onStart() {
-        // reiniciar
-        super.onStart();
-        //Toast.makeText(this, "OnStart", Toast.LENGTH_SHORT).show();
-    }
-    @Override
-    protected void onResume() {
-        // hacer visible
-        super.onResume();
-        //Toast.makeText(this, "OnResume", Toast.LENGTH_SHORT).show();.
-    }
-    @Override
-    protected void onPause() {
-        // Pausar la actividad: poner la app en 2 plano
-        super.onPause();
-        //Toast.makeText(this, "OnPause", Toast.LENGTH_SHORT).show();
-    }
-    @Override
-    protected void onStop() {
-        //Oculta la actividad: 2 plano
-        super.onStop();
-        //Toast.makeText(this, "OnStop", Toast.LENGTH_SHORT).show();
-    }
-    @Override
-    protected void onDestroy() {
-        // cerrar la app:  no se puede recuoerar
-        super.onDestroy();
-        // Toast.makeText(this, "OnDestroy", Toast.LENGTH_SHORT).show();
-    }
 }

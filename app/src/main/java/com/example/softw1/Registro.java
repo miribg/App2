@@ -24,12 +24,13 @@ import com.android.volley.toolbox.Volley;
 
 import java.util.HashMap;
 import java.util.Map;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 public class Registro extends AppCompatActivity  {
 
     private EditText et1, et2, et3, et4, et5, et6;
     private Button btn;
-
     private String str_name, str_uName, str_surname, str_password, str_email, str_phone;
 
     @Override
@@ -51,32 +52,33 @@ public class Registro extends AppCompatActivity  {
             public void onClick(View view) {
                 //obtener valores
                 str_uName = et1.getText().toString().trim();
-                str_name = et2.getText().toString().trim();
-                str_surname=et3.getText().toString().trim();
                 str_password=et4.getText().toString().trim();
-                str_email=et5.getText().toString().trim();
-                str_phone=et6.getText().toString().trim();
-
-                if (!str_name.isEmpty() && !str_password.isEmpty()
-                    && !str_email.isEmpty() && !str_phone.isEmpty() && !str_uName.isEmpty()) {
-                        comprobarNombreUsuario();
+                if ( !str_password.isEmpty() && !str_uName.isEmpty()) {
+                    comprobarNombreUsuario();
                 } else {    //algún dato sin meter
                     //TODO dialogo mejor
-                    Toast.makeText(Registro.this, R.string.vacio, Toast.LENGTH_SHORT).show();
+                    Toast.makeText(Registro.this, R.string.vacioReg, Toast.LENGTH_SHORT).show();
                 }
             }
         });
     }
     private void comprobarNombreUsuario(){
         //comprueba que el nombre de usuario no esta ya en la base de datos
-        //String url = "http://192.168.1.139/developeru/doble.php";
         String url="http://ec2-54-93-62-124.eu-central-1.compute.amazonaws.com/mbergaz001/WEB/developeru/doble.php";
         StringRequest stringRequest = new StringRequest(Request.Method.POST, url, new Response.Listener<String>() {
             @Override
             public void onResponse(String response) {
                 if (response != null && response.length()>0) {
                     if (response.trim().equalsIgnoreCase("correcto")) {
-                        registrar(); //si no esta, se registra el usuario
+                        str_email=et5.getText().toString().trim();
+                        str_phone=et6.getText().toString().trim();
+                        if (isEmailValid(str_email) || str_email.isEmpty()) {
+                            if (str_phone.length() == 9 || str_phone.length() == 0) {
+                                registrar();     //si no esta, se registra el usuario
+                            } else {
+                                Toast.makeText(Registro.this, R.string.formatoTel, Toast.LENGTH_SHORT).show();//el telefono debe tener 9 caracteres o no ponerlo
+                            }
+                        }
                     } else{ //nombre de usuario ya cogido
                         errorAlert();
                         et1.setText("", TextView.BufferType.EDITABLE);  //vaciar el nombre de usuario, para que puedan volver a meterlo
@@ -104,18 +106,24 @@ public class Registro extends AppCompatActivity  {
         RequestQueue requestQueue= Volley.newRequestQueue(this);
         requestQueue.add(stringRequest);
     }
+        private boolean isEmailValid(String email) {
+            String expression = "^[\\w\\.-]+@([\\w\\-]+\\.)+[A-Z]{2,4}$";
+            Pattern pattern = Pattern.compile(expression, Pattern.CASE_INSENSITIVE);
+            Matcher matcher = pattern.matcher(email);
+            return matcher.matches();
+        }
     private void registrar(){
         //se cogen todos los parametros y se hace un insert en la db
-       // String url = "http://192.168.1.139/developeru/registrar.php";
+        str_name = et2.getText().toString().trim();
+        str_surname=et3.getText().toString().trim();
         String url="http://ec2-54-93-62-124.eu-central-1.compute.amazonaws.com/mbergaz001/WEB/developeru/registrar.php";
         StringRequest stringRequest = new StringRequest(Request.Method.POST, url, new Response.Listener<String>() {
             @Override
             public void onResponse(String response) {
                 if (response != null && response.length()>0){
                     if (response.equalsIgnoreCase("registro correcto")) {
-                        //Dirige al menu principal
-                        Intent intent = new Intent(getApplicationContext(), MenuPrincipal.class);
-                        intent.putExtra("name", str_surname);
+                        //Dirige al inicio de sesión
+                        Intent intent = new Intent(getApplicationContext(), MainActivity.class);
                         startActivity(intent);
                     }else { //Algún dato no es del tipo indicado
                         //TODO: dialogo mejor
@@ -168,34 +176,4 @@ public class Registro extends AppCompatActivity  {
         alert.show();
     }
 
-    @Override
-    protected void onStart() {
-        // reiniciar
-        super.onStart();
-       // Toast.makeText(this, "OnStart", Toast.LENGTH_SHORT).show();
-    }
-    @Override
-    protected void onResume() {
-        // hacer visible
-        super.onResume();
-        //Toast.makeText(this, "OnResume", Toast.LENGTH_SHORT).show();
-    }
-    @Override
-    protected void onPause() {
-        // Pausar la actividad: poner la app en 2 plano
-        super.onPause();
-    //    Toast.makeText(this, "OnPause", Toast.LENGTH_SHORT).show();
-    }
-    @Override
-    protected void onStop() {
-        //Oculta la actividad: 2 plano
-        super.onStop();
-      //  Toast.makeText(this, "OnStop", Toast.LENGTH_SHORT).show();
-    }
-    @Override
-    protected void onDestroy() {
-        // cerrar la app:  no se puede recuoerar
-        super.onDestroy();
-        //Toast.makeText(this, "OnDestroy", Toast.LENGTH_SHORT).show();
-    }
 }
