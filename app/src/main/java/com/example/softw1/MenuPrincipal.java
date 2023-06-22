@@ -37,9 +37,11 @@ import android.content.res.Resources;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.graphics.Color;
+import android.graphics.drawable.BitmapDrawable;
 import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
+import android.provider.MediaStore;
 import android.util.Base64;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -74,6 +76,7 @@ import com.google.android.material.navigation.NavigationView;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import java.io.ByteArrayOutputStream;
 import java.lang.reflect.Array;
 import java.text.DateFormat;
 import java.text.ParseException;
@@ -96,6 +99,8 @@ public class MenuPrincipal extends AppCompatActivity implements NavigationView.O
     private DrawerLayout drawerLayout;
     private NavigationView navigationView;
     private View headerView;
+
+    private ImageView imageUser;
 
     @SuppressLint("MissingInflatedId")
     @Override
@@ -149,31 +154,9 @@ public class MenuPrincipal extends AppCompatActivity implements NavigationView.O
             }
         });
 
-        /*fab1 = (FloatingActionButton) findViewById(R.id.floatingActionButton);  //cambiar color
-        fab2 = (FloatingActionButton) findViewById(R.id.floatingActionButton2); //abrir el correo
-        fab1.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                //se abre escoger color
-                Intent intent = new Intent(getApplicationContext(), EscogerColor.class);
-                intent.putExtra("color", colorB);
-                intent.putExtra("user_name", str_name);
-                someActivityResultLauncher.launch(intent);;
-            }
-        });
-
-        fab2.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                //email
-                Intent intent = new Intent(Intent.ACTION_SENDTO);
-                intent.setData(Uri.parse("mailto:"));
-                startActivity(intent);
-            }
-        });*/
-
         drawerLayout= findViewById(R.id.drawer_layout);
         ImageView menu= findViewById(R.id.menu);
+        //darle función a la imagen de menu: abrir menu
         navigationView = findViewById(R.id.navigationView);
         navigationView.setNavigationItemSelectedListener(this);
 
@@ -185,7 +168,71 @@ public class MenuPrincipal extends AppCompatActivity implements NavigationView.O
         });
 
         cargarDatosMenu();
+        //al clickar la imagen de la camara: se puede cambiar la imagen del usuario
+        imageUser = (ImageView) headerView.findViewById(R.id.camara);
+        imageUser.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                sacarFoto();
+            }
+        });
         navigationView.setNavigationItemSelectedListener(this);
+    }
+
+
+    private void sacarFoto() {
+        Intent intent= new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
+        takePictureLauncher.launch(intent);
+    }
+
+    private ActivityResultLauncher<Intent> takePictureLauncher =
+            registerForActivityResult(new
+                    ActivityResultContracts.StartActivityForResult(), result -> {
+                if (result.getResultCode() == RESULT_OK &&
+                        result.getData()!= null) {
+                    Bundle bundle = result.getData().getExtras();
+                    ImageView elImageView = (ImageView) findViewById(R.id.fotoPerfil);
+                    Bitmap laminiatura = (Bitmap) bundle.get("data");
+                    elImageView.setImageBitmap(laminiatura);
+                    guardarImagen(laminiatura);
+                } else {
+                    Log.d("TakenPicture", "No photo taken");
+                }
+            });
+    private void guardarImagen(Bitmap bitmap) {
+        if (bitmap != null) {
+            ByteArrayOutputStream stream = new ByteArrayOutputStream();
+            bitmap.compress(Bitmap.CompressFormat.PNG, 100, stream);
+            byte[] fototransformada = stream.toByteArray();
+            String fotoen64 = Base64.encodeToString(fototransformada,Base64.DEFAULT);
+            guardarBD(fotoen64);
+        }
+    }
+
+    private void guardarBD(String img) {
+        //update img
+        String url="http://ec2-54-93-62-124.eu-central-1.compute.amazonaws.com/mbergaz001/WEB/developeru/subirFoto.php";
+        StringRequest stringRequest = new StringRequest(Request.Method.POST, url, new Response.Listener<String>() {
+            @Override
+            public void onResponse(String response) {
+                if (response != null && response.length()>0) {
+                    if (!response.trim().equalsIgnoreCase("incorrecto")) {
+                    }
+                }
+            }
+        }, null) {
+            @Nullable
+            @Override
+            protected Map<String, String> getParams() throws AuthFailureError {
+                //pasar los parametros que necesita la base de datos
+                Map<String, String> parametros = new HashMap<String, String>();
+                parametros.put("user_name", str_name);
+                parametros.put("img",img);
+                return parametros;
+            }
+        };
+        RequestQueue requestQueue= Volley.newRequestQueue(this);
+        requestQueue.add(stringRequest);
     }
 
 
@@ -594,27 +641,18 @@ public class MenuPrincipal extends AppCompatActivity implements NavigationView.O
         headerView = navigationView.getHeaderView(0);
         TextView navUsername = (TextView) headerView.findViewById(R.id.nombreUsuario);
         navUsername.setText(str_name);
-       /* ImageView imageView = (ImageView) headerView.findViewById(R.id.fotoPerfil);
-        String URL = "http://ec2-54-93-62-124.eu-central-1.compute.amazonaws.com/imugica037/WEB/restaurante_php/get_user.php";
+        String URL = "http://ec2-54-93-62-124.eu-central-1.compute.amazonaws.com/mbergaz001/WEB/developeru/obtenerImagen.php";
         StringRequest stringRequest = new StringRequest(Request.Method.POST, URL, new Response.Listener<String>() {
             @Override
             public void onResponse(String response) {
                 if (!response.isEmpty()) {
-                    JSONObject obj;
-                    try {
-                        obj = new JSONObject(response);
-                    } catch (JSONException e) {
-                        throw new RuntimeException(e);
+                    if (!response.trim().equalsIgnoreCase("sin imagen")) {
+                        byte[] decodedString = new byte[0];//String-->Image
+                        decodedString = Base64.decode(response, Base64.DEFAULT);
+                        Bitmap decodedByte = BitmapFactory.decodeByteArray(decodedString, 0, decodedString.length);
+                        ImageView elImageView = (ImageView) findViewById(R.id.fotoPerfil);
+                        elImageView.setImageBitmap(decodedByte);
                     }
-
-                    byte[] decodedString = new byte[0];//String-->Image
-                    try {
-                        decodedString = Base64.decode(obj.getString("foto"), Base64.DEFAULT);
-                    } catch (JSONException e) {
-                        throw new RuntimeException(e);
-                    }
-                    Bitmap decodedByte = BitmapFactory.decodeByteArray(decodedString, 0, decodedString.length);
-                    imageView.setImageBitmap(decodedByte);
                 }
             }
         }, new Response.ErrorListener() {
@@ -627,12 +665,12 @@ public class MenuPrincipal extends AppCompatActivity implements NavigationView.O
             protected Map<String, String> getParams() throws AuthFailureError {
                 //añadir elementos para realizar la consulta
                 Map<String, String> parametros = new HashMap<String, String>();
-                parametros.put("email", navUsername.getText().toString());
+                parametros.put("user_name", str_name);
                 return parametros;
             }
         };
         RequestQueue requestQue = Volley.newRequestQueue(this);
-        requestQue.add(stringRequest);*/
+        requestQue.add(stringRequest);
     }
 
     public void onResume(){
