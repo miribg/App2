@@ -1,5 +1,6 @@
 package com.example.softw1;
 
+import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
@@ -21,6 +22,9 @@ import com.android.volley.Response;
 import com.android.volley.VolleyError;
 import com.android.volley.toolbox.StringRequest;
 import com.android.volley.toolbox.Volley;
+import com.google.android.gms.tasks.OnCompleteListener;
+import com.google.android.gms.tasks.Task;
+import com.google.firebase.messaging.FirebaseMessaging;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -74,6 +78,9 @@ public class Registro extends AppCompatActivity  {
                         str_phone=et6.getText().toString().trim();
                         if (isEmailValid(str_email) || str_email.isEmpty()) {
                             if (str_phone.length() == 9 || str_phone.length() == 0) {
+                                if (str_phone.length()==0){
+                                    str_phone="0'";
+                                }
                                 registrar();     //si no esta, se registra el usuario
                             } else {
                                 Toast.makeText(Registro.this, R.string.formatoTel, Toast.LENGTH_SHORT).show();//el telefono debe tener 9 caracteres o no ponerlo
@@ -121,13 +128,29 @@ public class Registro extends AppCompatActivity  {
             @Override
             public void onResponse(String response) {
                 if (response != null && response.length()>0){
-                    if (response.equalsIgnoreCase("registro correcto")) {
+                    Toast.makeText(Registro.this,response,Toast.LENGTH_LONG).show();
+                    if (response.trim().equalsIgnoreCase("registro correcto")) {
+                        FirebaseMessaging.getInstance().getToken()
+                                .addOnCompleteListener(new OnCompleteListener<String>() {
+                                    @Override
+                                    public void onComplete(@NonNull Task<String> task) {
+                                        if (!task.isSuccessful()) {
+                                            Log.w("Error", "Fetching FCM registration token failed", task.getException());
+                                            return;
+                                        }
+
+                                        // Get new FCM registration token
+                                        String token = task.getResult();
+                                        Toast.makeText(Registro.this,token, Toast.LENGTH_SHORT).show();
+                                        Log.w("TOKEN",token);
+                                    }
+                                });
                         //Dirige al inicio de sesión
                         Intent intent = new Intent(getApplicationContext(), MainActivity.class);
                         startActivity(intent);
                     }else { //Algún dato no es del tipo indicado
                         //TODO: dialogo mejor
-                        Toast.makeText(Registro.this, R.string.errorSignEn, Toast.LENGTH_LONG).show();
+                        Toast.makeText(Registro.this, R.string.vacio, Toast.LENGTH_LONG).show();
                     }
                 }/*else{
                     Toast.makeText(Registro.this, "No parametrs", Toast.LENGTH_LONG).show();
