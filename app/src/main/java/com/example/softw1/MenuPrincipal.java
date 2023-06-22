@@ -261,9 +261,9 @@ public class MenuPrincipal extends AppCompatActivity implements NavigationView.O
                 if (response != null && response.length()>0) {
                     if (!response.trim().equalsIgnoreCase("incorrecto")) {
                         colorB=response.trim();
+                    } else {      //en el caso de no haber escogido ninguno
+                        colorB = obtenerColor(0, true);
                     }
-                }else{      //en el caso de no haber escogido ninguno
-                   colorB=obtenerColor(0, true);
                 }
                 btn.setBackgroundColor(Integer.parseInt(colorB));
             }
